@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图书馆座位查询系统</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: rgba(237, 233, 233, 0) url('../static/images/seat.jpg') no-repeat center center;
+      background-size: cover; /* 图片铺满整个屏幕 */
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #f4f4f4; /* 设置标题颜色 */
+    }
+
+    .seatCount {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #f4f4f4; /* 设置文字颜色 */
+    }
+
+    #queryButton {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    #queryResult {
+      font-size: 20px;
+      margin-top: 20px;
+      color: #f4f4f4; /* 设置文字颜色 */
+    }
+  </style>
+</head>
+<body>
+  <h1>图书馆座位查询系统</h1>
+  <div>
+    <div class="seatCount">当前剩余座位数量: <span id="availableSeats">-</span></div>
+    <button id="queryButton" onclick="querySeats()">查询座位</button>
+    <div id="queryResult"></div>
+  </div>
+
+  <script>
+    function querySeats() {
+      // 模拟随机生成座位数量
+      var availableSeats = Math.floor(Math.random() * 101);
+      document.getElementById('availableSeats').textContent = availableSeats;
+
+      // 判断座位数量并显示不同的提示信息
+      var queryResultElement = document.getElementById('queryResult');
+      if (availableSeats > 15) {
+        queryResultElement.textContent = "当前馆内座位充足，欢迎您的到来";
+      } else if (availableSeats > 0) {
+        queryResultElement.innerHTML = "<p>当前馆内座位紧张，建议酌情考虑</p><p>是否前来图书馆</p>";
+      } else {
+        queryResultElement.innerHTML = "当前馆内暂无空闲座位，建议一段</p><p>时间后再次查询座位";
+      }
+
+      // 可以将座位数量发送到后端保存，以便实时更新
+      // 可以使用Ajax或Fetch API来发送请求
+    }
+  </script>
+</body>
+</html>
