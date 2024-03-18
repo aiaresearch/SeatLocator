@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swiper Slide Show</title>
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Swiper CSS */
+    .swiper-container {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper" id="swiper-wrapper">
+      <!-- JavaScript will add slides here -->
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Navigation -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script>
+    // Dynamically generate 99 slides
+    var swiperWrapper = document.getElementById('swiper-wrapper');
+    for (var i = 1; i <= 99; i++) {
+      var slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      slide.innerHTML = '<img src="../static/images/slide/' + (i < 10 ? '00' : '0') + i + '.jpg" alt="Slide ' + i + '">';
+      console.log((i < 10 ? '0' : '') + i);
+      swiperWrapper.appendChild(slide);
+    }
+
+    var swiper = new Swiper('.swiper-container', {
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+
+</body>
+</html>

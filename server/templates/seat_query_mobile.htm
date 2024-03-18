@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图书馆座位查询系统</title>
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: rgba(237, 233, 233, 0) url('../static/images/seat.png') no-repeat center center;
+      background-size: cover; /* 图片铺满整个屏幕*/
+    }
+
+    h1 {
+      margin-bottom: 50px;
+      color: #ffffff; /* 设置标题颜色 */
+      font-size: 30px;
+    }
+
+    .seatCount {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 100px;
+      color: black; /* 设置文字颜色 */
+    }
+
+    #totalSeatInfo p {
+      font-size: 20px;
+      color: black; /* 设置文字颜色 */
+      margin-top: 50px;
+    }
+
+    #floorSeatInfo p
+    {
+      font-size: 20px;
+      color: black; /* 设置文字颜色 */
+    }
+
+    /* Style for available seats */
+    .available-seats {
+      color: green;
+    }
+
+    .timestamp{
+      font-size: 15px;
+      color:blue;
+    }
+
+    .timetext{
+      font-size: 15px;
+      color:black;
+    }
+
+
+    #queryButton,
+    #moreDetailsButton {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      background-color: #007bff; /* 设置按钮背景颜色 */
+      color: #ffffff; /* 设置按钮文字颜色 */
+      border: none;
+      border-radius: 5px; /* 设置按钮圆角 */
+      transition: background-color 0.3s ease; /* 设置按钮背景颜色过渡效果 */
+    }
+
+    #queryButton:hover,
+    #moreDetailsButton:hover {
+      background-color: #0056b3; /* 鼠标悬停时的按钮背景颜色 */
+    }
+
+    /* 水印文字样式 */
+    #watermark {
+      position: absolute; /* 绝对定位 */
+      bottom: 20px; /* 距离底部20像素 */
+      right: 20px; /* 距离右侧20像素 */
+      color: rgba(255, 255, 255, 0.5); /* 设置文字颜色和透明度 */
+      font-size: 16px; /* 设置文字大小 */
+    }
+  </style>
+</head>
+<body>
+  <h1>图书馆座位查询系统</h1>
+
+  <!-- 按钮元素，点击后触发查询总座位信息事件 -->
+  <button id="queryButton">查询总座位信息</button>
+
+  <!-- 显示总座位信息的容器 -->
+  <div id="totalSeatInfo"></div>
+
+  <!-- 按钮元素，点击后触发查询分楼座位信息事件 -->
+  <button id="moreDetailsButton" style="display: none;">查看更多细节</button>
+
+  <!-- 显示分楼座位信息的容器 -->
+  <div id="floorSeatInfo" style="display: none;"></div>
+
+<div id="watermark">背景图片由智谱清言AI生成</div>
+
+  <script>
+    // 点击事件处理函数 - 查询总座位信息
+    function queryTotalSeats() {
+      // 使用 fetch 发送 GET 请求获取总座位信息
+      fetch('/query', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json()) // 解析响应为 JSON 格式
+      .then(data => {
+        // 处理服务器返回的总座位信息，并显示在页面上
+        console.log(data);
+        var totalSeatInfoElement = document.getElementById('totalSeatInfo');
+        totalSeatInfoElement.innerHTML = `
+          <p>总可用座位数：<span class="available-seats">${data.all_available_value}</span> / ${data.all_total_value}</p>
+        `;
+
+        // 显示更多细节按钮
+        document.getElementById('moreDetailsButton').style.display = 'block';
+      })
+      .catch(error => {
+        // 处理错误
+        console.error('Error:', error);
+        // 在页面上显示错误信息
+        var totalSeatInfoElement = document.getElementById('totalSeatInfo');
+        totalSeatInfoElement.textContent = '总座位信息获取失败';
+      });
+    }
+
+    // 点击事件处理函数 - 查询分楼座位信息
+    function queryFloorSeats() {
+      // 使用 fetch 发送 GET 请求获取分楼座位信息
+      fetch('/query', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json()) // 解析响应为 JSON 格式
+      .then(data => {
+        // 处理服务器返回的分楼座位信息，并显示在页面上
+        var floorSeatInfoElement = document.getElementById('floorSeatInfo');
+        floorSeatInfoElement.innerHTML = `
+          <p>A区域可用座位数：<span class="available-seats">${data.floor1_available_value}</span> / ${data.floor1_total_value}</p>
+          <p><span class="timetext">数据更新截止至</span><span class="timestamp">${data.timestamp_1}</span><p>
+          <p>B区域可用座位数：<span class="available-seats">${data.floor2_available_value}</span> / ${data.floor2_total_value}</p>
+          <p><span class="timetext">数据更新截止至</span><span class="timestamp">${data.timestamp_2}</span><p>
+        `;
+        // 显示分楼座位信息容器
+        floorSeatInfoElement.style.display = 'block';
+      })
+      .catch(error => {
+        // 处理错误
+        console.error('Error:', error);
+        // 在页面上显示错误信息
+        var floorSeatInfoElement = document.getElementById('floorSeatInfo');
+        floorSeatInfoElement.textContent = '座位信息获取失败';
+      });
+    }
+
+    // 获取查询总座位信息按钮元素
+    var queryButton = document.getElementById('queryButton');
+
+    // 添加点击事件处理函数
+    queryButton.addEventListener('click', queryTotalSeats);
+
+    // 获取查看更多细节按钮元素
+    var moreDetailsButton = document.getElementById('moreDetailsButton');
+
+    // 添加点击事件处理函数
+    moreDetailsButton.addEventListener('click', queryFloorSeats);
+  </script>
+</body>
+</html>
