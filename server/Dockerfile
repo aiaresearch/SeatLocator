@@ -8,13 +8,16 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed dependencies specified in requirements.txt
-RUN apt-get update \
-    && apt-get install -y tzdata \
-    && rm -rf /var/lib/apt/lists/* \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the time zone
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME World
 
 # Run app.py when the container launches
 CMD ["python", "app.py"]
