@@ -70,11 +70,11 @@ def seat_query():
                 'all_available_value': available_value_1 + available_value_2,
                 'all_total_value': total_value_1 + total_value_2,
 
-                'floor1_available_value': available_value_1,
-                'floor1_total_value': total_value_1,
+                'area1_available_value': available_value_1,
+                'area1_total_value': total_value_1,
 
-                'floor2_available_value': available_value_2,
-                'floor2_total_value': total_value_2,
+                'area2_available_value': available_value_2,
+                'area2_total_value': total_value_2,
 
                 'timestamp_1': format_timestamp(timestamp_1),
                 'timestamp_2': format_timestamp(timestamp_2)
