@@ -9,7 +9,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{password}@172.30.4.153:6000/postgres'
 db = SQLAlchemy(app)
 
-#插入座位情况数据
 class SeatData_1(db.Model):
     __tablename__ = 'querynumber_1'
     id = db.Column(db.Integer, primary_key=True)
@@ -25,7 +24,6 @@ class SeatData_2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     occupied_column = db.Column(db.Float, nullable=False)
     available_column = db.Column(db.Float, nullable=False)
-    #print(datetime.now())
     timestamp_column = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     def __repr__(self):
@@ -38,19 +36,10 @@ def add_charset(response):
 
 @app.route('/')
 def index():
-    #print("index")
-        user_agent = request.headers.get('User-Agent')
-        return render_template("index.htm")
-        #if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
-            #return render_template("index_mobile.htm")
-        #else:
-            #return render_template("index.htm")
-
+    return render_template("index.htm")
 
 @app.route('/query')
 def seat_query():
-    #print("query")
-    user_agent = request.headers.get('User-Agent')
     latest_seat_data_1 = SeatData_1.query.order_by(SeatData_1.timestamp_column.desc()).first()
     latest_seat_data_2 = SeatData_2.query.order_by(SeatData_2.timestamp_column.desc()).first()
 
@@ -70,14 +59,12 @@ def seat_query():
             return None
 
     if request.headers.get('Accept') == 'application/json':
-        # 如果请求头中包含 "Accept: application/json"，则返回 JSON 格式的数据
         if latest_seat_data_1 and latest_seat_data_2:
             total_value_1 = latest_seat_data_1.occupied_column + latest_seat_data_1.available_column
             available_value_1 = latest_seat_data_1.available_column
 
             total_value_2 = latest_seat_data_2.occupied_column + latest_seat_data_2.available_column
             available_value_2 = latest_seat_data_2.available_column
-            #print(total_value_1,available_value_1,total_value_1,total_value_2)
 
             data = {
                 'all_available_value': available_value_1 + available_value_2,
@@ -92,18 +79,12 @@ def seat_query():
                 'timestamp_1': format_timestamp(timestamp_1),
                 'timestamp_2': format_timestamp(timestamp_2)
             }
-            #print(data)
             return jsonify(data)
 
         else:
             return jsonify({'error': 'No seat data available'}), 404
     else:
         return render_template("seat_query.htm")
-        #if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
-            #return render_template("seat_query_mobile.htm")
-        #else:
-            #return render_template("seat_query.htm")
-
 
 @app.route('/information')
 def related_information():

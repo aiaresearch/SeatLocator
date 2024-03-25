@@ -1,20 +1,17 @@
-# Use an official Python runtime as a parent image
+# 使用官方的 Python 运行时作为父镜像
 FROM python:3.8-slim
 
-# Set the working directory in the container
-WORKDIR /app
+# 在容器中设置工作目录
+WORKDIR /server
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# 将当前目录中的内容复制到容器中的 /server 目录下
+COPY . /server
 
-# Install any needed dependencies specified in requirements.txt
-RUN apt-get update \
-    && apt-get install -y tzdata \
-    && rm -rf /var/lib/apt/lists/* \
-    && pip install --no-cache-dir -r requirements.txt
+# 安装 requirements.txt 中指定的所有依赖项
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Set the time zone
+# 设置时区为上海时间
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-# Run app.py when the container launches
+# 当容器启动时运行 app.py
 CMD ["python", "app.py"]

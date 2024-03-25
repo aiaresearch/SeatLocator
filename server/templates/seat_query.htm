@@ -167,9 +167,9 @@
         // 处理服务器返回的分区域座位信息，并显示在页面上
         var floorSeatInfoElement = document.getElementById('areaSeatInfo');
         floorSeatInfoElement.innerHTML = `
-          <p>A区域可用座位数：<span class="available-seats">${data.area1_available_value}</span> / ${data.area1_total_value}</p>
+          <p>A区域可用座位数：<span class="available-seats">${data.available_value_1}</span> / ${data.total_value_1}</p>
           <p><span class="timetext">数据更新截止至</span><span class="timestamp">${data.timestamp_1}</span><p
-            <p>B区域可用座位数：<span class="available-seats">${data.area2_available_value}</span> / ${data.area2_total_value}</p>
+            <p>B区域可用座位数：<span class="available-seats">${data.available_value_2}</span> / ${data.total_value-2}</p>
           <p><span class="timetext">数据更新截止至</span><span class="timestamp">${data.timestamp_2}</span><p>
         `;
         // 显示分楼座位信息容器
