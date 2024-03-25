@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>图书馆座位查询系统</title>
-  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <style>
     /* 设置全局样式 */
     body {
@@ -16,7 +15,6 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background-color: #f4f4f4;
       background: rgba(237, 233, 233, 0) url('../static/images/seat.png') no-repeat center center;
       background-size: cover;
     }
@@ -28,21 +26,20 @@
       color: #ffffff;
       font-size: 80px;
     }
-
+    
     /* 设置总座位信息样式 */
     #totalSeatInfo {
       font-size: 24px;
       font-weight: bold;
-      margin-top: -90px; /* 调整总座位信息容器顶部间距 */
+      margin-top: -90px; 
       color: black;
     }
-
-    /* 设置分楼座位信息样式 */
+    
+    /* 设置分区域座位信息样式 */
     #areaSeatInfo {
-      display: none; /* 初始隐藏分楼座位信息 */
+      display: none; 
     }
 
-    /* 设置文字样式 */
     .available-seats {
       color: green;
     }
@@ -57,8 +54,7 @@
       color: black;
     }
 
-    /* 设置按钮样式 */
-
+    /* 设置查询总座位按钮样式 */
     #totalButton{
       padding: 10px 20px;
       font-size: 18px;
@@ -114,22 +110,22 @@
 <body>
   <h1>图书馆座位查询系统</h1>
 
-  <!-- 按钮元素，点击后触发查询总座位信息事件 -->
+  <!-- 点击后触发查询总座位信息事件 -->
   <button id="totalButton">查询总座位信息</button>
 
   <!-- 显示总座位信息的容器 -->
   <div id="totalSeatInfo"></div>
 
-  <!-- 按钮元素，点击后触发查询分楼座位信息事件 -->
+  <!-- 按钮元素，点击后触发查询分区域座位信息事件 -->
   <button id="moreDetailsButton" style="display: none;">查看更多细节</button>
 
-  <!-- 显示分楼座位信息的容器 -->
+  <!-- 显示分区域座位信息的容器 -->
   <div id="areaSeatInfo" style="display: none;"></div>
 
   <div id="watermark">背景图片由智谱清言AI生成</div>
 
   <script>
-    // 点击事件处理函数 - 查询总座位信息
+    // 查询总座位信息
     function queryTotalSeats() {
       // 使用 fetch 发送 GET 请求获取总座位信息
       fetch('/query', {
@@ -138,10 +134,9 @@
           'Accept': 'application/json'
         }
       })
-      .then(response => response.json()) // 解析响应为 JSON 格式
+      .then(response => response.json()) // 解析响应主体为 JSON 格式
       .then(data => {
         // 处理服务器返回的总座位信息，并显示在页面上
-        console.log(data);
         var totalSeatInfoElement = document.getElementById('totalSeatInfo');
         totalSeatInfoElement.innerHTML = `
           <p>总可用座位数：<span class="available-seats">${data.all_available_value}</span> / ${data.all_total_value}</p>
@@ -150,18 +145,17 @@
         // 显示更多细节按钮
         document.getElementById('moreDetailsButton').style.display = 'block';
       })
-      .catch(error => {
         // 处理错误
+      .catch(error => {
         console.error('Error:', error);
-        // 在页面上显示错误信息
         var totalSeatInfoElement = document.getElementById('totalSeatInfo');
         totalSeatInfoElement.textContent = '总座位信息获取失败';
       });
     }
 
-    // 点击事件处理函数 - 查询分楼座位信息
+    // 查询分区域座位信息
     function queryFloorSeats() {
-      // 使用 fetch 发送 GET 请求获取分楼座位信息
+      // 使用 fetch 发送 GET 请求获取分区域座位信息（与获取总座位数据的方法相同）
       fetch('/query', {
         method: 'GET',
         headers: {
@@ -170,7 +164,7 @@
       })
       .then(response => response.json()) // 解析响应为 JSON 格式
       .then(data => {
-        // 处理服务器返回的分楼座位信息，并显示在页面上
+        // 处理服务器返回的分区域座位信息，并显示在页面上
         var floorSeatInfoElement = document.getElementById('areaSeatInfo');
         floorSeatInfoElement.innerHTML = `
           <p>A区域可用座位数：<span class="available-seats">${data.area1_available_value}</span> / ${data.area1_total_value}</p>
@@ -181,10 +175,9 @@
         // 显示分楼座位信息容器
         floorSeatInfoElement.style.display = 'block';
       })
-      .catch(error => {
         // 处理错误
+      .catch(error => {
         console.error('Error:', error);
-        // 在页面上显示错误信息
         var floorSeatInfoElement = document.getElementById('areaSeatInfo');
         floorSeatInfoElement.textContent = '座位信息获取失败';
       });

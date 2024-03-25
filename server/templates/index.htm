@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <title>图书馆官网</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-  <!-- Existing Styles -->
   <style>
     /* 设置全局样式 */
     body {
@@ -47,6 +45,7 @@
       margin: 0 10px;
     }
 
+    /*选项卡样式*/
     .toolsDropdown {
       display: inline-block;
       position: relative;
@@ -86,45 +85,48 @@
       width: 100%;
     }
 
+    #libraryInfo {
+      margin-top: auto;
+      color:#f4f4f4
+    }
+
 
 
     /* 响应式设计 */
     @media (max-width: 768px) {
       header h1 {
-        font-size: 24px; /* 调整标题字体大小 */
+        font-size: 24px; 
       }
       #libraryInfo p {
-        font-size: 20px; /* 调整图书馆信息字体大小 */
+        font-size: 20px; 
         color:#f4f4f4
       }
       nav a {
-        padding: 8px; /* 调整导航链接的内边距 */
-        margin: 0 6px; /* 调整导航链接的外边距 */
+        padding: 8px; 
+        margin: 0 6px; 
       }
     }
 
     @media (max-width: 480px) {
       header h1 {
-        font-size: 20px; /* 调整标题字体大小 */
+        font-size: 20px; 
       }
       #libraryInfo p {
-        font-size: 16px; /* 调整图书馆信息字体大小 */
+        font-size: 16px; 
         color:#f4f4f4
       }
       nav a {
-        padding: 6px; /* 调整导航链接的内边距 */
-        margin: 0 4px; /* 调整导航链接的外边距 */
+        padding: 6px; 
+        margin: 0 4px; 
       }
     }
   </style>
 
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 <body>
-  <header>
+  <header class="header">
     <h1>欢迎访问图书馆官网</h1>
-    <p>开馆时间：周一至周五 9:00-22:00</p>
+    <p>开馆时间：周一至周五 9:00-21:00</p>
     <p>闭馆时间：周末及法定节假日</p>
   </header>
 
@@ -137,7 +139,6 @@
       </div>
     </div>
 
-    <!-- 修改这里，将 href 指向新页面 -->
     <div class="toolsDropdown">
       <span class="toolsLink">服务与工具</span>
       <div class="toolsDropdownContent">
