@@ -17,7 +17,11 @@ class SeatData_1(db.Model):
     timestamp_column = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     def __repr__(self):
-        return f'<SeatData_1 id:{self.id}, occupied_column:{self.occupied_column}, available_column:{self.available_column}, timestamp_column:{self.timestamp_column}>'
+        return f'<
+        SeatData_1 id:{self.id}, 
+        occupied_column:{self.occupied_column}, 
+        available_column:{self.available_column}, 
+        timestamp_column:{self.timestamp_column}>'
 
 class SeatData_2(db.Model):
     __tablename__ = 'querynumber_2'
@@ -27,8 +31,11 @@ class SeatData_2(db.Model):
     timestamp_column = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     def __repr__(self):
-        return f'<SeatData_2 id:{self.id}, occupied_column:{self.occupied_column}, available_column:{self.available_column}, timestamp_column:{self.timestamp_column}>'
-
+        return f'<
+        SeatData_2 id:{self.id}, 
+        occupied_column:{self.occupied_column}, 
+        available_column:{self.available_column}, 
+        timestamp_column:{self.timestamp_column}>'
 @app.after_request
 def add_charset(response):
     response.headers['Content-Type'] += '; charset=utf-8'
