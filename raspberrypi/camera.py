@@ -52,6 +52,5 @@ while True:
         else:
             print("请求失败，状态码：", response.status_code)
     
-    # 拍摄周期
     time.sleep(20)
 cap.release()
