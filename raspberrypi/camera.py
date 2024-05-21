@@ -11,7 +11,7 @@ with open('请在该文档中更改设备序列.txt', 'r') as file:
     lines = file.readlines()
   
     id = lines[0].strip()
-    url = f"http://123.56.116.11:8000/update_data_{id}"
+    url = f"http://47.120.18.45:8000/update_data_{id}"
 
 while True:
     if not cap.isOpened(): 

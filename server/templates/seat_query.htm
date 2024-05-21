@@ -127,6 +127,7 @@
   <script>
     // 查询总座位信息
     function queryTotalSeats() {
+      console.assert(data)
       // 使用 fetch 发送 GET 请求获取总座位信息
       fetch('/query', {
         method: 'GET',
@@ -164,6 +165,7 @@
       })
       .then(response => response.json()) // 解析响应为 JSON 格式
       .then(data => {
+        console.assert(data)
         // 处理服务器返回的分区域座位信息，并显示在页面上
         var floorSeatInfoElement = document.getElementById('areaSeatInfo');
         floorSeatInfoElement.innerHTML = `

@@ -1,12 +1,22 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from datetime import datetime
 import os
 
 password = os.getenv("PASSWORD")
 
+# ...
+app = Flask(__name__)  # 创建 Flask 应用
+
+app.secret_key = password  # 设置表单交互密钥
+
+login_manager = LoginManager()  # 实例化登录管理对象
+login_manager.init_app(app)  # 初始化应用
+login_manager.login_view = 'login'  # 设置用户登录视图函数 endpoint
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{password}@172.30.4.153:6000/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{password}@172.21.17.198:6000/postgres'
 db = SQLAlchemy(app)
 
 class SeatData_1(db.Model):
@@ -17,8 +27,7 @@ class SeatData_1(db.Model):
     timestamp_column = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __repr__(self):
-        return f'<
-        SeatData_1 id:{self.id}, occupied_column:{self.occupied_column}, available_column:{self.available_column}, timestamp_column:{self.timestamp_column}>'
+        return f'<SeatData_1 id:{self.id}, occupied_column:{self.occupied_column}, available_column:{self.available_column}, timestamp_column:{self.timestamp_column}>'
 
 class SeatData_2(db.Model):
     __tablename__ = 'querynumber_2'
@@ -28,8 +37,7 @@ class SeatData_2(db.Model):
     timestamp_column = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __repr__(self):
-        return f'<
-        SeatData_2 id:{self.id}, occupied_column:{self.occupied_column}, available_column:{self.available_column}, timestamp_column:{self.timestamp_column}>'
+        return f'<SeatData_2 id:{self.id}, occupied_column:{self.occupied_column}, available_column:{self.available_column}, timestamp_column:{self.timestamp_column}>'
 @app.after_request
 def add_charset(response):
     response.headers['Content-Type'] += '; charset=utf-8'
@@ -43,6 +51,7 @@ def index():
 def seat_query():
     latest_seat_data_1 = SeatData_1.query.order_by(SeatData_1.timestamp_column.desc()).first()
     latest_seat_data_2 = SeatData_2.query.order_by(SeatData_2.timestamp_column.desc()).first()
+    print("database_is_ok")
 
     if latest_seat_data_1 is not None:
         timestamp_1 = latest_seat_data_1.timestamp_column
@@ -80,6 +89,7 @@ def seat_query():
                 'timestamp_1': format_timestamp(timestamp_1),
                 'timestamp_2': format_timestamp(timestamp_2)
             }
+            print(data, "data is OK")
             return jsonify(data)
 
         else:
