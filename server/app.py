@@ -110,33 +110,42 @@ def update_data_1():
     data = request.json
     available_input = data.get('available')
     occupied_input = data.get('occupied')
+    password_given = data.get('password')
+    if password_given == password:
+        if available_input is not None and occupied_input is not None:
+            seat_data = SeatData_1(occupied_column=occupied_input, available_column=available_input)
+            db.session.add(seat_data)
+            db.session.commit()
+            print('Data updated successfully')
 
-    if available_input is not None and occupied_input is not None:
-        seat_data = SeatData_1(occupied_column=occupied_input, available_column=available_input)
-        db.session.add(seat_data)
-        db.session.commit()
-        print('Data updated successfully')
-        return jsonify({'message': 'Data updated successfully'}), 200
+            return jsonify({'message': 'Data updated successfully'}), 200
+        else:
+            print("Invalid data provided")
+            return jsonify({'error': 'Invalid data provided'}), 400
     else:
-        print("Invalid data provided")
-        return jsonify({'error': 'Invalid data provided'}), 400
+        print("Invalid password provided")
+        return jsonify({'error': 'Invalid password provided'}), 401
 
 @app.route('/update_data_2', methods=['POST'])
 def update_data_2():
     data = request.json
     available_input = data.get('available')
     occupied_input = data.get('occupied')
+    password_given = data.get('password')
+    if password_given == password:
+        if available_input is not None and occupied_input is not None:
+            seat_data = SeatData_2(occupied_column=occupied_input, available_column=available_input)
+            db.session.add(seat_data)
+            db.session.commit()
+            print('Data updated successfully')
 
-    if available_input is not None and occupied_input is not None:
-        seat_data = SeatData_2(occupied_column=occupied_input, available_column=available_input)
-        db.session.add(seat_data)
-        db.session.commit()
-        print('Data updated successfully')
-
-        return jsonify({'message': 'Data updated successfully'}), 200
+            return jsonify({'message': 'Data updated successfully'}), 200
+        else:
+            print("Invalid data provided")
+            return jsonify({'error': 'Invalid data provided'}), 400
     else:
-        print("Invalid data provided")
-        return jsonify({'error': 'Invalid data provided'}), 400
+        print("Invalid password provided")
+        return jsonify({'error': 'Invalid password provided'}), 401
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
