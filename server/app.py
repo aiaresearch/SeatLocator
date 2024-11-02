@@ -16,7 +16,7 @@ login_manager.init_app(app)  # 初始化应用
 login_manager.login_view = 'login'  # 设置用户登录视图函数 endpoint
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{password}@172.21.17.198:6000/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{password}@172.21.17.198:5432/seatdata'
 db = SQLAlchemy(app)
 
 class SeatData_1(db.Model):
