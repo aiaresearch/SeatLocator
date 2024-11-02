@@ -2,3 +2,4 @@
 __pycache__/
 model/test
 model/runs
+app_command
